@@ -11,7 +11,7 @@ const Inventory = () => {
   const fetchInventory = async () => {
     try {
       setLoading(true);
-      const res = await axios.get(`${import.meta.env.BACKEND_API_URL}/api/inventory`);
+      const res = await axios.get(`${import.meta.env.VITE_BACKEND_API_URL}/api/inventory`);
 
       if (res.data.success) {
         setInventories(res.data.data);

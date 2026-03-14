@@ -14,7 +14,7 @@ const Home = () => {
     try {
 
       const res = await axios.get(
-        `${import.meta.env.BACKEND_API_URL}/api/category/public`
+        `${import.meta.env.VITE_BACKEND_API_URL}/api/category/public`
       );
 
       if (res.data.success) {
@@ -30,7 +30,7 @@ const Home = () => {
     try {
 
       const res = await axios.get(
-        `${import.meta.env.BACKEND_API_URL}/api/product/client/public`
+        `${import.meta.env.VITE_BACKEND_API_URL}/api/product/client/public`
       );
 
       if (res.data.success) {
@@ -46,7 +46,7 @@ const Home = () => {
     try {
 
       const res = await axios.get(
-        `${import.meta.env.BACKEND_API_URL}/api/product/products/category/${slug}`
+        `${import.meta.env.VITE_BACKEND_API_URL}/api/product/products/category/${slug}`
       );
 
       if (res.data.success) {

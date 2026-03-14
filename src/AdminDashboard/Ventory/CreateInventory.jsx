@@ -23,7 +23,7 @@ const CreateInventory = () => {
       const token = sessionStorage.getItem("token");
 
       const res = await axios.get(
-        "http://localhost:4000/api/product",
+        `${import.meta.env.VITE_BACKEND_API_URL}/api/product`,
         {
           headers: {
             Authorization: `Bearer ${token}`
