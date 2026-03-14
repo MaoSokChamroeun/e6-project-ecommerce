@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Sidebar from "./Sidebar";
+import AdminHero from "./AdminHero";
+import axios from "axios";
+
 import {
   AreaChart,
   Area,
@@ -9,9 +12,9 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-import AdminHero from "./AdminHero";
 
-// Dummy analytics data
+import { DollarSign, ShoppingCart, Package, Clock } from "lucide-react";
+
 const data = [
   { name: "Jan", revenue: 400, orders: 24 },
   { name: "Feb", revenue: 300, orders: 13 },
@@ -22,56 +25,72 @@ const data = [
   { name: "Jul", revenue: 1068, orders: 28 },
 ];
 
-const DashboardCard = ({ title, value }) => (
-  <div className="bg-white p-6 rounded-md shadow-md border border-gray-200">
-    <div className="text-sm text-gray-700 mb-2">{title}</div>
-    <div className="text-3xl font-bold text-black">{value}</div>
-  </div>
-);
+const DashboardCard = ({ title, value, icon, color }) => {
+  return (
+    <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition">
+      <div className="flex items-center justify-between mb-3">
+        <h4 className="text-sm text-gray-500">{title}</h4>
+        <div className={`p-2 rounded-lg ${color}`}>{icon}</div>
+      </div>
+      <h2 className="text-3xl font-bold text-gray-800">{value}</h2>
+    </div>
+  );
+};
 
 const AdminDashboard = () => {
   const [userEmail, setUserEmail] = useState("");
-  const [products, setProducts] = useState([]);
   const [totalStock, setTotalStock] = useState(0);
   const [totalRevenue, setTotalRevenue] = useState(0);
   const [totalOrders, setTotalOrders] = useState(0);
   const [totalPending, setTotalPending] = useState(0);
+  const [orders, setOrders] = useState([]);
 
-  const getOrderCount = async () => {
-    const res = await fetch(`${import.meta.env.VITE_BACKEND_API_URL}/api/order/count`);
-    const data = await res.json();
+  /* ===========================
+     FETCH ALL ORDERS (ADMIN)
+  =========================== */
 
-    if (data.success) {
-      setTotalOrders(data.totalOrders);
+  const getAllOrders = async () => {
+    try {
+      const token = sessionStorage.getItem("token");
+
+      const res = await axios.get(
+        `${import.meta.env.VITE_BACKEND_API_URL}/api/order`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (res.data.success) {
+        setOrders(res.data.data);
+      }
+    } catch (error) {
+      console.log("Fetch orders error:", error);
     }
   };
 
-  const getPendingCount = async () => {
-    const res = await fetch(`${import.meta.env.VITE_BACKEND_API_URL}/api/order/count`);
-    const data = await res.json();
+  /* ===========================
+     FETCH PRODUCTS
+  =========================== */
 
-    if (data.success) {
-      setTotalPending(data.pendingOrders);
-    }
-  };
   const getProducts = async () => {
     try {
       const token = sessionStorage.getItem("token");
 
-      const res = await fetch(`${import.meta.env.VITE_BACKEND_API_URL}/api/product`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const res = await axios.get(
+        `${import.meta.env.VITE_BACKEND_API_URL}/api/product`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
-      const result = await res.json();
-
-      if (result.success) {
-        setProducts(result.data);
-
-        const stockCount = result.data.reduce(
+      if (res.data.success) {
+        const stockCount = res.data.data.reduce(
           (total, product) => total + product.stock,
-          0,
+          0
         );
 
         setTotalStock(stockCount);
@@ -81,108 +100,124 @@ const AdminDashboard = () => {
     }
   };
 
-  const getRevenue = async () => {
-    const token = sessionStorage.getItem("token");
-    const res = await fetch(`${import.meta.env.VITE_BACKEND_API_URL}/api/payment/revenue/total`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    const data = await res.json();
+  /* ===========================
+     FETCH ORDER COUNT
+  =========================== */
 
-    if (data.success) {
-      setTotalRevenue(data.totalRevenue);
+  const getOrderCount = async () => {
+    try {
+      const res = await axios.get(
+        `${import.meta.env.VITE_BACKEND_API_URL}/api/order/count`
+      );
+
+      if (res.data.success) {
+        setTotalOrders(res.data.totalOrders);
+        setTotalPending(res.data.pendingOrders);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  /* ===========================
+     FETCH TOTAL REVENUE
+  =========================== */
+
+  const getRevenue = async () => {
+    try {
+      const token = sessionStorage.getItem("token");
+
+      const res = await axios.get(
+        `${import.meta.env.VITE_BACKEND_API_URL}/api/payment/revenue/total`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (res.data.success) {
+        setTotalRevenue(res.data.totalRevenue);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
   useEffect(() => {
     const email = sessionStorage.getItem("userEmail");
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setUserEmail(email);
-    getOrderCount();
+
+    getAllOrders();
     getProducts();
+    getOrderCount();
     getRevenue();
-    getPendingCount();
   }, []);
 
   return (
-    <div className="flex min-h-screen bg-gray-200 w-full font-khmer">
+    <div className="flex min-h-screen bg-gray-100 w-full">
       <Sidebar />
 
       <AdminHero>
         <div className="flex-1 w-full">
-          {/* Header */}
-          <header className="bg-gray-200 p-4 flex justify-end items-center shadow-md w-full">
-            <div className="flex items-center gap-4">
-              <button className="relative">
-                <span className="material-icons-outlined text-gray-400">
-                  Notifications
-                </span>
-              </button>
+          {/* HEADER */}
 
-              <div className="flex items-center gap-2 cursor-pointer">
-                <div className="w-10 h-10 rounded-full bg-gray-400 flex items-center justify-center">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="size-6 text-white"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488
-                      7.488 0 0 0-5.982 2.975m11.963 0a9 9 0
-                      1 0-11.963 0m11.963 0A8.966 8.966 0
-                      0 1 12 21a8.966 8.966 0 0
-                      1-5.982-2.275M15 9.75a3 3 0
-                      1 1-6 0 3 3 0 0 1 6 0Z"
-                    />
-                  </svg>
-                </div>
-                <span className="text-sm font-medium text-gray-500">
-                  {userEmail || "Admin User"}
-                </span>
+          <header className="bg-white p-4 flex justify-end items-center shadow-sm">
+            <div className="flex items-center gap-2">
+              <div className="w-10 h-10 rounded-full bg-gray-400 flex items-center justify-center text-white font-bold">
+                A
               </div>
+
+              <span className="text-sm font-medium text-gray-700">
+                {userEmail || "Admin"}
+              </span>
             </div>
           </header>
 
-          {/* Dashboard Cards */}
-          <div className="p-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <DashboardCard title="Total Revenue" value={`$ ${totalRevenue}`} />
-            <DashboardCard title="Total Orders" value={totalOrders} />
-            <DashboardCard title="Order Pending" value={totalPending} />
-            <DashboardCard title="Total Stock" value={totalStock} />
+          {/* DASHBOARD CARDS */}
+
+          <div className="p-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <DashboardCard
+              title="Total Revenue"
+              value={`$${totalRevenue}`}
+              icon={<DollarSign size={20} />}
+              color="bg-green-100 text-green-600"
+            />
+
+            <DashboardCard
+              title="Total Orders"
+              value={totalOrders}
+              icon={<ShoppingCart size={20} />}
+              color="bg-blue-100 text-blue-600"
+            />
+
+            <DashboardCard
+              title="Pending Orders"
+              value={totalPending}
+              icon={<Clock size={20} />}
+              color="bg-yellow-100 text-yellow-600"
+            />
+
+            <DashboardCard
+              title="Total Stock"
+              value={totalStock}
+              icon={<Package size={20} />}
+              color="bg-purple-100 text-purple-600"
+            />
           </div>
 
-          {/* Revenue Graph */}
-          <div className="px-10 pb-10">
-            <div className="bg-white p-6 rounded-md shadow-md border border-gray-200">
-              <h2 className="text-lg font-semibold mb-4 text-gray-800">
-                Revenue Analytics (Monthly)
+          {/* CHART */}
+
+          <div className="px-8 pb-10">
+            <div className="bg-white p-6 rounded-xl shadow-sm border">
+              <h2 className="text-lg font-semibold mb-4">
+                Revenue & Orders Analytics
               </h2>
 
-              <div className="h-[300px] w-full">
+              <div className="h-[320px]">
                 <ResponsiveContainer width="100%" height="100%">
                   <AreaChart data={data}>
-                    <defs>
-                      <linearGradient id="colorRev" x1="0" y1="0" x2="0" y2="1">
-                        <stop
-                          offset="5%"
-                          stopColor="#566068"
-                          stopOpacity={0.8}
-                        />
-                        <stop
-                          offset="95%"
-                          stopColor="#566068"
-                          stopOpacity={0}
-                        />
-                      </linearGradient>
-                    </defs>
-
-                    <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                    <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="name" />
                     <YAxis />
                     <Tooltip />
@@ -190,14 +225,89 @@ const AdminDashboard = () => {
                     <Area
                       type="monotone"
                       dataKey="revenue"
-                      stroke="#566068"
-                      fillOpacity={1}
-                      fill="url(#colorRev)"
+                      stroke="#4f46e5"
+                      fill="#c7d2fe"
+                      strokeWidth={3}
+                    />
+
+                    <Area
+                      type="monotone"
+                      dataKey="orders"
+                      stroke="#16a34a"
+                      fill="#bbf7d0"
                       strokeWidth={3}
                     />
                   </AreaChart>
                 </ResponsiveContainer>
               </div>
+            </div>
+          </div>
+
+          {/* RECENT ORDERS */}
+
+          <div className="px-8 pb-12">
+            <div className="bg-white rounded-xl shadow-sm border p-6">
+              <h2 className="text-lg font-semibold mb-4">Recent Orders</h2>
+
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b text-gray-600">
+                    <th className="py-3 text-left">Order ID</th>
+                    <th className="text-left">Customer</th>
+                    <th className="text-left">Order Status</th>
+                    <th className="text-left">Amount</th>
+                    <th className="text-left">Order Date</th>
+                    <th className="text-left">Payment Status</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {orders.slice(0, 5).map((order) => (
+                    <tr
+                      key={order._id}
+                      className="border-b hover:bg-gray-50"
+                    >
+                      <td className="py-3 font-medium">
+                        #{order._id.slice(-5)}
+                      </td>
+
+                      <td>{order.user?.username || "Guest"}</td>
+
+                      <td
+                        className={
+                          order.orderStatus === "pending"
+                            ? "text-yellow-500"
+                            : order.orderStatus === "processing"
+                            ? "text-blue-500"
+                            : order.orderStatus === "completed"
+                            ? "text-green-600"
+                            : "text-red-500"
+                        }
+                      >
+                        {order.orderStatus}
+                      </td>
+
+                      <td>${order.totalAmount}</td>
+
+                      <td>
+                        {new Date(order.createdAt).toLocaleDateString()}
+                      </td>
+
+                      <td
+                        className={
+                          order.paymentStatus === "pending"
+                            ? "text-yellow-500"
+                            : order.paymentStatus === "paid"
+                            ? "text-green-600"
+                            : "text-red-500"
+                        }
+                      >
+                        {order.paymentStatus}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
