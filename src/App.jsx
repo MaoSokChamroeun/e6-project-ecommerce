@@ -108,9 +108,9 @@ function App() {
         <Route path="/product/checkout" element ={<Checkout />} />
         <Route path="/product/orders" element = {<UserOrder />} />
         <Route path="/product/payment" element = {<Payment />} />
-        <Route path="//product/payment/success" element = {<PaymentSuccess />} />
+        <Route path="/product/payment/success" element = {<PaymentSuccess />} />
         {/* ADMIN AUTH */}
-        <Route path="/admin/login" element={<Login />} />
+        <Route path="/admin/signin" element={<Login />} />
         <Route path="/admin/signup" element={<Signup />} />
         <Route path="/product/detail/:id" element={<ProductDetail />} />
         {/* ADMIN DASHBOARD */}
