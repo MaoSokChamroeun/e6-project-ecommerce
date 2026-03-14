@@ -17,7 +17,7 @@ const useSignupUser = () => {
     try {
       setLoading(true);
       const res = await axios.post(
-        `${import.meta.env.BACKEND_API_URL}/api/user/client/signup`,
+        `${import.meta.env.VITE_BACKEND_API_URL}/api/user/client/signup`,
         {
           username,
           email,

@@ -17,7 +17,7 @@ const useCategory = () => {
         return;
       }
 
-      const res = await axios.get(`${import.meta.env.BACKEND_API_URL}/api/category`, {
+      const res = await axios.get(`${import.meta.env.VITE_BACKEND_API_URL}/api/category`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

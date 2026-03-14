@@ -36,7 +36,7 @@ const UpdateProduct = () => {
     try {
       const token = sessionStorage.getItem("token");
 
-      const res = await axios.get(`${import.meta.env.BACKEND_API_URL}/api/category`, {
+      const res = await axios.get(`${import.meta.env.VITE_BACKEND_API_URL}/api/category`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -53,7 +53,7 @@ const UpdateProduct = () => {
     try {
       const token = sessionStorage.getItem("token");
 
-      const res = await axios.get(`${import.meta.env.BACKEND_API_URL}/api/product/${id}`, {
+      const res = await axios.get(`${import.meta.env.VITE_BACKEND_API_URL}/api/product/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 

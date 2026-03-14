@@ -8,7 +8,7 @@ const useGetAllProduct = () => {
         setLoading(true)
         try{
            
-            const res = await axios.get(`${import.meta.env.BACKEND_API_URL}/api/product/client/public`);
+            const res = await axios.get(`${import.meta.env.VITE_BACKEND_API_URL}/api/product/client/public`);
             if(res.data.success){
                 setLoading(false)
                 setProductFront(res.data.data)

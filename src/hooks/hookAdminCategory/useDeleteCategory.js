@@ -11,7 +11,7 @@ const useDeleteCategory = () => {
       const token = sessionStorage.getItem("token");
 
       const res = await axios.delete(
-        `${import.meta.env.BACKEND_API_URL}/api/category/${id}`,
+        `${import.meta.env.VITE_BACKEND_API_URL}/api/category/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

@@ -11,7 +11,7 @@ const useProduct = () => {
 
       const token = sessionStorage.getItem("token");
 
-      const res = await axios.get(`${import.meta.env.BACKEND_API_URL}/api/product`, {
+      const res = await axios.get(`${import.meta.env.VITE_BACKEND_API_URL}/api/product`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

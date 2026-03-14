@@ -38,7 +38,7 @@ const AdminDashboard = () => {
   const [totalPending, setTotalPending] = useState(0);
 
   const getOrderCount = async () => {
-    const res = await fetch(`${import.meta.env.BACKEND_API_URL}/api/order/count`);
+    const res = await fetch(`${import.meta.env.VITE_BACKEND_API_URL}/api/order/count`);
     const data = await res.json();
 
     if (data.success) {
@@ -47,7 +47,7 @@ const AdminDashboard = () => {
   };
 
   const getPendingCount = async () => {
-    const res = await fetch(`${import.meta.env.BACKEND_API_URL}/api/order/count`);
+    const res = await fetch(`${import.meta.env.VITE_BACKEND_API_URL}/api/order/count`);
     const data = await res.json();
 
     if (data.success) {
@@ -58,7 +58,7 @@ const AdminDashboard = () => {
     try {
       const token = sessionStorage.getItem("token");
 
-      const res = await fetch(`${import.meta.env.BACKEND_API_URL}/api/product`, {
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_API_URL}/api/product`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -83,7 +83,7 @@ const AdminDashboard = () => {
 
   const getRevenue = async () => {
     const token = sessionStorage.getItem("token");
-    const res = await fetch(`${import.meta.env.BACKEND_API_URL}/api/payment/revenue/total`, {
+    const res = await fetch(`${import.meta.env.VITE_BACKEND_API_URL}/api/payment/revenue/total`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

@@ -16,7 +16,7 @@ const useCreateCategory = () => {
       const token = sessionStorage.getItem("token");
 
       const res = await axios.post(
-        `${import.meta.env.BACKEND_API_URL}/api/category`,
+        `${import.meta.env.VITE_BACKEND_API_URL}/api/category`,
         {
           name,
           slug,

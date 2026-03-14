@@ -19,7 +19,7 @@ export const CartProvider = ({ children }) => {
       if (!token) return;
 
       const res = await axios.get(
-        `${import.meta.env.BACKEND_API_URL}/api/user/cart`,
+        `${import.meta.env.VITE_BACKEND_API_URL}/api/user/cart`,
         {
           headers: { Authorization: `Bearer ${token}` }
         }
@@ -65,7 +65,7 @@ export const CartProvider = ({ children }) => {
       const token = sessionStorage.getItem("token");
 
       await axios.delete(
-        `${import.meta.env.BACKEND_API_URL}/api/user/cart/remove/${productId}`,
+        `${import.meta.env.VITE_BACKEND_API_URL}/api/user/cart/remove/${productId}`,
         {
           headers: { Authorization: `Bearer ${token}` }
         }
@@ -91,7 +91,7 @@ const increaseQty = async (productId, currentQty) => {
     const newQty = currentQty + 1;
 
     await axios.put(
-      `${import.meta.env.BACKEND_API_URL}/api/user/cart/update`,
+      `${import.meta.env.VITE_BACKEND_API_URL}/api/user/cart/update`,
       {
         productId,
         quantity: newQty
@@ -125,7 +125,7 @@ const decreaseQty = async (productId, currentQty) => {
     const newQty = currentQty > 1 ? currentQty - 1 : 1;
 
     await axios.put(
-      `${import.meta.env.BACKEND_API_URL}/api/user/cart/update`,
+      `${import.meta.env.VITE_BACKEND_API_URL}/api/user/cart/update`,
       {
         productId,
         quantity: newQty

@@ -11,7 +11,7 @@ const CategoryProduct = ({ categorySlug }) => {
     try {
 
       const res = await axios.get(
-        `${import.meta.env.BACKEND_API_URL}/api/product/products/category/${categorySlug}`
+        `${import.meta.env.VITE_BACKEND_API_URL}/api/product/products/category/${categorySlug}`
       );
 
       if (res.data.success) {

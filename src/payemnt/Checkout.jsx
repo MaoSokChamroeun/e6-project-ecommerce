@@ -26,7 +26,7 @@ const handleCheckout = async () => {
     const token = sessionStorage.getItem("token");
 
     const res = await axios.post(
-      `${import.meta.env.BACKEND_API_URL}/api/order/client/orders`,
+      `${import.meta.env.VITE_BACKEND_API_URL}/api/order/client/orders`,
       {
         items: cart.map((item) => ({
           product: item.product._id,

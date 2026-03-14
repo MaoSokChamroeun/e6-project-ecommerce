@@ -9,7 +9,7 @@ const useAdminLogout = () => {
       const token = sessionStorage.getItem("token");
 
       await axios.post(
-        `${import.meta.env.BACKEND_API_URL}/api/user/signout`,
+        `${import.meta.env.VITE_BACKEND_API_URL}/api/user/signout`,
         {},
         {
           headers: {

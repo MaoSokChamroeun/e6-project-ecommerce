@@ -29,7 +29,7 @@ const Payment = () => {
       const token = sessionStorage.getItem("token");
 
       const res = await axios.post(
-        `${import.meta.env.BACKEND_API_URL}/api/payment`,
+        `${import.meta.env.VITE_BACKEND_API_URL}/api/payment`,
         { orderId },
         {
           headers: {

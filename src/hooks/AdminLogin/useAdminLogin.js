@@ -16,7 +16,7 @@ const useAdminLogin = () => {
     try {
         setLoading(true);
       
-      const res = await axios.post(`${import.meta.env.BACKEND_API_URL}/api/user/signin`, {
+      const res = await axios.post(`${import.meta.env.VITE_BACKEND_API_URL}/api/user/signin`, {
         email,
         password,
       });
