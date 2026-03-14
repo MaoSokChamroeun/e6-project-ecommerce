@@ -38,7 +38,7 @@ const PaymentSuccess = () => {
           <div className="flex gap-4 justify-center">
 
             <button
-              onClick={() => navigate("/orders")}
+              onClick={() => navigate("/product/orders")}
               className="bg-black text-white px-6 py-3 rounded hover:bg-gray-800"
             >
               View Orders
