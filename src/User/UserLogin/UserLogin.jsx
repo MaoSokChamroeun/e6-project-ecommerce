@@ -5,7 +5,7 @@ import Layout from "../../layout/Layout";
 
 const Login = () => {
   const { handleLogin, setEmail, setPassword, loading, error } = useUserLogin();
-
+  console.log('Show', handleLogin)
   return (
  <Layout>
      <div className="w-full h-screen flex items-center justify-center bg-gray-200">
