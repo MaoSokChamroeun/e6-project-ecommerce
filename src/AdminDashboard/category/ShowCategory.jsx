@@ -22,7 +22,7 @@ const ShowCategory = () => {
             </div>
             <button className="bg-blue-600 hover:bg-slate-700 text-white px-5 py-4 pb-4 rounded-lg flex items-center gap-2 transition shadow-md">
               <span className="material-icons-outlined text-sm">
-                <Link to={'/admin/dashboard/create'}>
+                <Link to={'/admin/dashboard/category/create'}>
                     Create Product
                 </Link>
               </span>

@@ -152,6 +152,7 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     const email = sessionStorage.getItem("userEmail");
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setUserEmail(email);
 
     getAllOrders();
