@@ -64,6 +64,7 @@ const AdminDashboard = () => {
 
       if (res.data.success) {
         setOrders(res.data.data);
+        console.log('ALl User order' , res.data.data)
       }
     } catch (error) {
       console.log("Fetch orders error:", error);
@@ -106,8 +107,13 @@ const AdminDashboard = () => {
 
   const getOrderCount = async () => {
     try {
+      const token = sessionStorage.getItem("token")
       const res = await axios.get(
-        `${import.meta.env.VITE_BACKEND_API_URL}/api/order/count`
+        `${import.meta.env.VITE_BACKEND_API_URL}/api/order/count` ,{
+          headers : {
+            Authorization : `Bearer ${token}`
+          }
+        }
       );
 
       if (res.data.success) {
@@ -262,7 +268,7 @@ const AdminDashboard = () => {
                 </thead>
 
                 <tbody>
-                  {orders.slice(0, 5).map((order) => (
+                  {orders.slice(0, 10).map((order) => (
                     <tr
                       key={order._id}
                       className="border-b hover:bg-gray-50"
