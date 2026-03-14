@@ -18,7 +18,7 @@ const ProductDetail = () => {
     try {
 
       const res = await axios.get(
-        `http://localhost:4000/api/product/client/public/${id}`
+        `${import.meta.env.BACKEND_API_URL}/api/product/client/public/${id}`
       );
 
       if (res.data.success) {
@@ -49,7 +49,7 @@ const ProductDetail = () => {
     try {
 
       const res = await axios.post(
-        "http://localhost:4000/api/user/cart/add",
+        `${import.meta.env.BACKEND_API_URL}/api/user/cart/add`,
         { productId: product._id },
         {
           headers: {

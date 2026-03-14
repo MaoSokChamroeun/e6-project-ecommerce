@@ -11,7 +11,7 @@ const useUserSignout = () => {
 
       if (token) {
         await axios.post(
-          "http://localhost:4000/api/user/client/signout",
+          `${import.meta.env.BACKEND_API_URL}/api/user/client/signout`,
           {},
           {
             headers: { Authorization: `Bearer ${token}` },

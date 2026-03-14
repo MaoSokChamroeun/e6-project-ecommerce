@@ -41,6 +41,7 @@ const CreateInventory = () => {
   };
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchProducts();
   }, []);
 
@@ -59,7 +60,7 @@ const CreateInventory = () => {
       const token = sessionStorage.getItem("token");
 
       const res = await axios.post(
-        "http://localhost:4000/api/inventory/stock-in",
+        `${import.meta.env.BACKEND_API_URL}/api/inventory/stock-in`,
         form,
         {
           headers: {

@@ -15,7 +15,7 @@ const useUpdateCategory = () => {
       const token = sessionStorage.getItem("token");
 
       const res = await axios.put(
-        `http://localhost:4000/api/category/${id}`,
+        `${import.meta.env.BACKEND_API_URL}/api/category/${id}`,
         {
           name,
           slug,

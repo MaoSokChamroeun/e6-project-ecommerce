@@ -13,7 +13,7 @@ const UserOrder = () => {
       const token = sessionStorage.getItem("token");
 
       const res = await axios.get(
-        "http://localhost:4000/api/order/client/orders",
+        `${import.meta.env.BACKEND_API_URL}/api/order/client/orders`,
         {
           headers: {
             Authorization: `Bearer ${token}`

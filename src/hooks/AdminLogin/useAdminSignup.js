@@ -24,7 +24,7 @@ const useAdminSignup = () => {
       const token = localStorage.getItem("token");
 
       const res = await axios.post(
-        "http://localhost:4000/api/user/signup",
+        `${import.meta.env.BACKEND_API_URL}/api/user/signup`,
         {
           fistName,
           lastName,

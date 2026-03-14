@@ -11,7 +11,7 @@ const useDeleteProduct = () => {
       const token = sessionStorage.getItem("token");
 
       const res = await axios.delete(
-        `http://localhost:4000/api/product/${id}`,
+        `${import.meta.env.BACKEND_API_URL}/api/product/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

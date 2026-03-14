@@ -31,7 +31,7 @@ const useCreateProduct = () => {
     });
 
       const res = await axios.post(
-        "http://localhost:4000/api/product",
+        `${import.meta.env.BACKEND_API_URL}/api/product`,
         formData,
         {
           headers: {

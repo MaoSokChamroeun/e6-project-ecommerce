@@ -45,7 +45,7 @@ const useUpdateProduct = () => {
       });
 
       const res = await axios.put(
-        `http://localhost:4000/api/product/${id}`,
+        `${import.meta.env.BACKEND_API_URL}/api/product/${id}`,
         formData,
         {
           headers: {
