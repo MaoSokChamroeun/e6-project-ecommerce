@@ -21,14 +21,14 @@ const useAdminLogout = () => {
 
       sessionStorage.removeItem("token");
       sessionStorage.removeItem("admin");
-      navigate("/admin/login", { replace: true });
+      navigate("/admin/signin", { replace: true });
     } catch (error) {
       console.error(
         "Logout failed:",
         error.response?.data || error.message
       );
       sessionStorage.clear();
-      navigate("/admin/login", { replace: true });
+      navigate("/admin/signin", { replace: true });
     }
   };
 
