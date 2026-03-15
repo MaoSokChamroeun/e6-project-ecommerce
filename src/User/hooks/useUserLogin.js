@@ -19,7 +19,6 @@ const useUserLogin = () => {
         email,
         password,
       });
-      console.log(import.meta.env.VITE_BACKEND_API_URL);
       if (res.data.success) {
         setLoading(false)
         const token = res.data.token;
