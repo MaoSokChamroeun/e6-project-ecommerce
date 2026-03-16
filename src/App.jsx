@@ -94,6 +94,7 @@ import UserOrder from "./payemnt/UserOrder";
 import Payment from "./payemnt/Payment";
 import ShowAllOrders from "./AdminDashboard/Order/ShowAllOrder";
 import PaymentSuccess from "./payemnt/PaymentSuccess";
+import FavoriteDetail from "./FrontendFetching/Product/FavoriteDetail";
 
 function App() {
   return (
@@ -107,6 +108,7 @@ function App() {
         <Route path="/cart" element ={<Card />} />
         <Route path="/product/checkout" element ={<Checkout />} />
         <Route path="/product/orders" element = {<UserOrder />} />
+        <Route path="/product/favorites" element = {<FavoriteDetail />} />
         <Route path="/product/payment" element = {<Payment />} />
         <Route path="/product/payment/success" element = {<PaymentSuccess />} />
         {/* ADMIN AUTH */}
