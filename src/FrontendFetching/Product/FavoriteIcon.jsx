@@ -5,8 +5,9 @@ import { useEffect, useState } from "react";
 const FavoriteIcon = ({ productId }) => {
 
   const [fav, setFav] = useState(false);
-  const checkFavorite = async () => {
 
+  // Check if product is already favorite
+  const checkFavorite = async () => {
     try {
 
       const token = sessionStorage.getItem("token");
@@ -22,17 +23,14 @@ const FavoriteIcon = ({ productId }) => {
         (item) => item.product._id === productId
       );
 
-      if (exist) {
-        setFav(true);
-      }
+      setFav(!!exist);
 
     } catch (error) {
       console.log(error);
     }
-
   };
 
-  // toggle favorite
+  // Toggle favorite
   const toggleFavorite = async () => {
 
     try {
@@ -64,6 +62,9 @@ const FavoriteIcon = ({ productId }) => {
 
       }
 
+      // 🔥 notify header to update favorite count
+      window.dispatchEvent(new Event("favoriteUpdated"));
+
     } catch (error) {
       console.log(error);
     }
@@ -73,16 +74,17 @@ const FavoriteIcon = ({ productId }) => {
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     checkFavorite();
-  }, []);
+  }, [productId]);
 
   return (
-
-    <div onClick={toggleFavorite} style={{ cursor: "pointer" }}>
+    <div
+      onClick={toggleFavorite}
+      style={{ cursor: "pointer" }}
+      title="Toggle Favorite"
+    >
       {fav ? <FaHeart color="red" size={20} /> : <FaRegHeart size={20} />}
     </div>
-
   );
-
 };
 
 export default FavoriteIcon;

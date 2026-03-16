@@ -3,7 +3,7 @@ import userUserSignout from "../User/hooks/useUserSignout";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useCart } from "../context/CardContext";
 import axios from "axios";
-import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { FaRegHeart } from "react-icons/fa";
 
 const Header = () => {
 
@@ -16,24 +16,8 @@ const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [favorites, setFavorites] = useState([]);
 
-  useEffect(() => {
-
-    const email = sessionStorage.getItem("clientEmail");
-    setUserClientEmail(email);
-
-    const token = sessionStorage.getItem("token");
-
-    if (token) {
-      getCart();
-      // eslint-disable-next-line react-hooks/immutability
-      getFavorites();
-    }
-
-  }, [location]);
-
   const getFavorites = async () => {
     try {
-
       const token = sessionStorage.getItem("token");
 
       const res = await axios.get(
@@ -44,11 +28,36 @@ const Header = () => {
       );
 
       setFavorites(res.data.data || []);
-
     } catch (error) {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+
+    const email = sessionStorage.getItem("clientEmail");
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setUserClientEmail(email);
+
+    const token = sessionStorage.getItem("token");
+
+    if (token) {
+      getCart();
+      getFavorites();
+    }
+
+    // listen favorite update event
+    const updateFavorites = () => {
+      getFavorites();
+    };
+
+    window.addEventListener("favoriteUpdated", updateFavorites);
+
+    return () => {
+      window.removeEventListener("favoriteUpdated", updateFavorites);
+    };
+
+  }, [location]);
 
   const cartCount = cart?.reduce(
     (total, item) => total + (item.quantity || 0),
@@ -73,9 +82,11 @@ const Header = () => {
 
           {/* Favorite */}
           <Link to="/product/favorites" className="relative">
-            <FaRegHeart />
+
+            <FaRegHeart size={20} />
+
             {favoriteCount > 0 && (
-              <span className="absolute -top-2 -right-3 bg-red-500 text-white text-xs px-1 rounded-full">
+              <span className="absolute -top-2 -right-3 bg-red-500 text-white text-xs px-2 rounded-full">
                 {favoriteCount}
               </span>
             )}
@@ -97,7 +108,6 @@ const Header = () => {
 
           {userClientEmail ? (
             <>
-
               <Link to="/product/orders" className="hover:text-blue-600">
                 My Orders
               </Link>
@@ -112,17 +122,14 @@ const Header = () => {
               >
                 Logout
               </button>
-
             </>
           ) : (
-
             <button
               onClick={() => navigate("/user/signin")}
               className="bg-blue-500 text-white px-4 py-1 rounded"
             >
               Sign In
             </button>
-
           )}
 
         </div>
@@ -143,9 +150,14 @@ const Header = () => {
         <div className="md:hidden mt-4 flex flex-col gap-4 border-t pt-4">
 
           {/* Favorite */}
-          <Link to="/product/favorites" onClick={() => setMenuOpen(false)} className="relative">
+          <Link
+            to="/product/favorites"
+            onClick={() => setMenuOpen(false)}
+            className="relative"
+          >
 
-            <FaRegHeart />
+            <FaRegHeart size={20} />
+
             {favoriteCount > 0 && (
               <span className="absolute -top-2 bg-red-500 text-white text-xs px-2 rounded-full">
                 {favoriteCount}
@@ -155,7 +167,11 @@ const Header = () => {
           </Link>
 
           {/* Cart */}
-          <Link to="/cart" onClick={() => setMenuOpen(false)} className="relative">
+          <Link
+            to="/cart"
+            onClick={() => setMenuOpen(false)}
+            className="relative"
+          >
 
             🛒
 
@@ -169,7 +185,6 @@ const Header = () => {
 
           {userClientEmail ? (
             <>
-
               <Link to="/product/orders" onClick={() => setMenuOpen(false)}>
                 My Orders
               </Link>
@@ -184,17 +199,14 @@ const Header = () => {
               >
                 Logout
               </button>
-
             </>
           ) : (
-
             <button
               onClick={() => navigate("/user/signin")}
               className="bg-blue-500 text-white px-4 py-2 rounded"
             >
               Sign In
             </button>
-
           )}
 
         </div>
