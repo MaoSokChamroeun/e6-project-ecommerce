@@ -34,7 +34,7 @@ const Product = ({ products }) => {
 
             <div className="relative overflow-hidden p-4">
               <div className="cursor-pointer">
-                <FavoriteIcon productId={products._id} />
+                <FavoriteIcon productId={p._id} />
               </div>
 
               <div className="w-full h-[300px] flex justify-center flex-col p-4">
