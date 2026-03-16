@@ -3,6 +3,7 @@ import userUserSignout from "../User/hooks/useUserSignout";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useCart } from "../context/CardContext";
 import axios from "axios";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 
 const Header = () => {
 
@@ -72,11 +73,9 @@ const Header = () => {
 
           {/* Favorite */}
           <Link to="/product/favorites" className="relative">
-
-            ❤️
-
+            <FaRegHeart />
             {favoriteCount > 0 && (
-              <span className="absolute -top-2 -right-3 bg-red-500 text-white text-xs px-2 rounded-full">
+              <span className="absolute -top-2 -right-3 bg-red-500 text-white text-xs px-1 rounded-full">
                 {favoriteCount}
               </span>
             )}

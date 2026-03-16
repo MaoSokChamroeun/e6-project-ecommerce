@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Product from "../FrontendFetching/Product/Product";
 import Layout from "../layout/Layout";
 import axios from "axios";
+import HeroSlider from "./HeroSlider";
 
 const Home = () => {
 
@@ -89,26 +90,7 @@ const Home = () => {
 
         {/* HERO SECTION */}
 
-        <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-20 text-center">
-
-          <h1 className="text-5xl font-bold mb-4">
-            E6 TEAM Online Store
-          </h1>
-
-          <p className="text-lg opacity-90 mb-6">
-            Discover the best products with amazing prices
-          </p>
-
-          <button
-            onClick={() =>
-              window.scrollTo({ top: 500, behavior: "smooth" })
-            }
-            className="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-200 transition"
-          >
-            Shop Now
-          </button>
-
-        </div>
+      <HeroSlider />
 
 
         {/* FILTER SECTION */}

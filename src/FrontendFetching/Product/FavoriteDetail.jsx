@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import Layout from "../../layout/Layout";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 
 const FavoriteDetail = () => {
 
@@ -35,7 +36,7 @@ const FavoriteDetail = () => {
       const token = sessionStorage.getItem("token");
 
       await axios.delete(
-        `http://localhost:4000/api/favorite/remove/${productId}`,
+        `${import.meta.env.VITE_BACKEND_API_URL}/api/favorite/remove/${productId}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -67,55 +68,95 @@ const FavoriteDetail = () => {
   return (
 
     <Layout>
-        <div className="max-w-7xl mx-auto px-6 py-8">
+  <div className="max-w-7xl mx-auto px-6 py-10">
 
-      <h1 className="text-2xl font-bold mb-6">
-        ❤️ My Favorites
+    {/* Page Title */}
+    <div className="flex items-center justify-between mb-8">
+      <h1 className="text-3xl font-bold text-gray-800">
+         My Favorite Products
       </h1>
 
-      {favorites.length === 0 ? (
-        <p>No favorite products yet.</p>
-      ) : (
+      <span className="text-sm text-gray-500">
+        {favorites.length} items
+      </span>
+    </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    {favorites.length === 0 ? (
 
-          {favorites.map((item) => {
+      <div className="text-center py-20">
 
-            const product = item.product;
+        <h2 className="text-xl font-semibold text-gray-600 mb-3">
+          Your wishlist is empty
+        </h2>
 
-            return (
+        <p className="text-gray-400 mb-6">
+          Start adding products you love 
+        </p>
 
-              <div
-                key={item._id}
-                className="border rounded-lg p-4 shadow hover:shadow-lg transition"
-              >
+        <Link
+          to="/"
+          className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition"
+        >
+          Browse Products
+        </Link>
+
+      </div>
+
+    ) : (
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+
+        {favorites.map((item) => {
+
+          const product = item.product;
+
+          return (
+
+            <div
+              key={item._id}
+              className="bg-white rounded-xl shadow hover:shadow-xl transition duration-300 overflow-hidden group"
+            >
+
+              {/* Image */}
+              <div className="relative">
 
                 <img
-                  src={product.image}
+                  src={product.image[0]}
                   alt={product.name}
-                  className="w-full h-40 object-cover rounded"
+                  className="w-full h-52 object-cover group-hover:scale-105 transition duration-300"
                 />
 
-                <h3 className="mt-3 font-semibold">
+                {/* Favorite badge */}
+                <div className="absolute top-3 right-3 bg-white p-2 rounded-full shadow">
+                  <FaHeart className="text-red-500" />
+                </div>
+
+              </div>
+
+              {/* Content */}
+              <div className="p-4">
+
+                <h3 className="font-semibold text-gray-800 line-clamp-2">
                   {product.name}
                 </h3>
 
-                <p className="text-blue-600 font-bold">
+                <p className="text-lg font-bold text-blue-600 mt-2">
                   ${product.price}
                 </p>
 
-                <div className="flex gap-2 mt-3">
+                {/* Buttons */}
+                <div className="flex gap-2 mt-4">
 
                   <Link
-                    to={`/product/${product._id}`}
-                    className="flex-1 text-center bg-blue-500 text-white py-1 rounded"
+                    to={`/product/detail/${product._id}`}
+                    className="flex-1 text-center bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
                   >
                     View
                   </Link>
 
                   <button
                     onClick={() => removeFavorite(product._id)}
-                    className="flex-1 bg-red-500 text-white py-1 rounded"
+                    className="flex-1 bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 transition"
                   >
                     Remove
                   </button>
@@ -124,16 +165,18 @@ const FavoriteDetail = () => {
 
               </div>
 
-            );
+            </div>
 
-          })}
+          );
 
-        </div>
+        })}
 
-      )}
+      </div>
 
-    </div>
-    </Layout>
+    )}
+
+  </div>
+</Layout>   
 
   );
 
