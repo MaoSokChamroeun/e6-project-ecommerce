@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import FavoriteIcon from "./FavoriteIcon";
 
 const Product = ({ products }) => {
 
@@ -31,7 +32,10 @@ const Product = ({ products }) => {
 
             {/* Product Image */}
 
-            <div className="relative overflow-hidden">
+            <div className="relative overflow-hidden p-4">
+              <div className="cursor-pointer">
+                <FavoriteIcon/>
+              </div>
 
               <div className="w-full h-[300px] flex justify-center flex-col p-4">
                 <img
