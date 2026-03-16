@@ -143,10 +143,9 @@ const Header = () => {
         <div className="md:hidden mt-4 flex flex-col gap-4 border-t pt-4">
 
           {/* Favorite */}
-          <Link to="/favorites" onClick={() => setMenuOpen(false)} className="relative">
+          <Link to="/product/favorites" onClick={() => setMenuOpen(false)} className="relative">
 
-            ❤️
-
+            <FaRegHeart />
             {favoriteCount > 0 && (
               <span className="absolute -top-2 bg-red-500 text-white text-xs px-2 rounded-full">
                 {favoriteCount}
