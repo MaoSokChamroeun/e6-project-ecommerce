@@ -15,7 +15,7 @@ const FavoriteDetail = () => {
       const token = sessionStorage.getItem("token");
 
       const res = await axios.get(
-        "http://localhost:4000/api/favorite/my",
+        `${import.meta.env.VITE_BACKEND_API_URL}/api/favorite/my`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
