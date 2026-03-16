@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Layout from "../../layout/Layout";
 import { useCart } from "../../context/CardContext";
+import FavoriteIcon from "./FavoriteIcon";
 
 const ProductDetail = () => {
 
@@ -83,7 +84,7 @@ const ProductDetail = () => {
         <div>
 
           <div className="bg-white rounded-xl shadow p-4">
-              
+            <FavoriteIcon />
            <div className="w-full h-[300px] p-6 flex justify-center flex-col">
              <img
               src={mainImage}
