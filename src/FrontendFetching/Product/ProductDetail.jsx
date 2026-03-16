@@ -83,7 +83,7 @@ const ProductDetail = () => {
         <div>
 
           <div className="bg-white rounded-xl shadow p-4">
-
+              
            <div className="w-full h-[300px] p-6 flex justify-center flex-col">
              <img
               src={mainImage}
