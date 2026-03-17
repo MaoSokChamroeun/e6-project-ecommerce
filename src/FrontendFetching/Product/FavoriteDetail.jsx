@@ -3,6 +3,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import Layout from "../../layout/Layout";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
+import Loading from "../../pages/Loading";
 
 const FavoriteDetail = () => {
 
@@ -57,13 +58,13 @@ const FavoriteDetail = () => {
     getFavorites();
   }, []);
 
-  if (loading) {
-    return (
-      <div className="text-center mt-10 text-lg">
-        Loading favorites...
-      </div>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <div className="text-center mt-10 text-lg">
+  //       <Loading />
+  //     </div>
+  //   );
+  // }
 
   return (
 
@@ -80,6 +81,9 @@ const FavoriteDetail = () => {
         {favorites.length} items
       </span>
     </div>
+    <div className="w-full flex flex-col justify-center">
+          {loading && <Loading />}
+        </div>
 
     {favorites.length === 0 ? (
 
@@ -103,9 +107,9 @@ const FavoriteDetail = () => {
       </div>
 
     ) : (
-
+    
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-
+        
         {favorites.map((item) => {
 
           const product = item.product;

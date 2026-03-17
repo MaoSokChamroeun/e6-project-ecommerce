@@ -1,24 +1,28 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import FavoriteIcon from "./FavoriteIcon";
+import Loading from "../../pages/Loading";
+import useGetAllProduct from "../hooksFront/useGetAllProduct";
 
 const Product = ({ products }) => {
-  const [currentPage, setCurrentPage] = useState(1);
-
+  const [currentPage, setCurrentPage ] = useState(1);
+  const { loading} = useGetAllProduct()
   const productsPerPage = 12;
 
   const totalPages = Math.ceil(products.length / productsPerPage);
 
   const startIndex = (currentPage - 1) * productsPerPage;
   const endIndex = startIndex + productsPerPage;
-
   const currentProducts = products.slice(startIndex, endIndex);
-
+  console.log('Show all' , products)
   return (
     <div className="w-full py-10">
       {/* Product Grid */}
-
+<div className="w-full flex flex-col justify-center">
+          {loading && <Loading />}
+        </div>
       <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+        
         {currentProducts?.map((p) => (
           <div
             key={p._id}

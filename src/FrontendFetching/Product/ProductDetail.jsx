@@ -3,16 +3,16 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Layout from "../../layout/Layout";
 import { useCart } from "../../context/CardContext";
+import Loading from "../../pages/Loading";
 
 const ProductDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { addToCart } = useCart();
-
   const [product, setProduct] = useState(null);
   const [mainImage, setMainImage] = useState("");
-
   const getProduct = async () => {
+   
     try {
       const res = await axios.get(
         `${import.meta.env.VITE_BACKEND_API_URL}/api/product/client/public/${id}`,
@@ -60,7 +60,7 @@ const ProductDetail = () => {
   };
 
   if (!product) {
-    return <div className="p-10 text-center">Loading...</div>;
+    return <div className="p-10 text-center"><Loading /></div>;
   }
 
   return (
