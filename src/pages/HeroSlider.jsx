@@ -1,80 +1,86 @@
 import { useState, useEffect } from "react";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import useBannerFrontend from "../FrontendFetching/useBannerFrontend";
 
 const HeroSlider = () => {
-
-  const slides = [
-    {
-      image: "https://store974.com/cdn/shop/files/keyboard_copy.jpg?v=1732084374",
-      title: "E6 TEAM Online Store",
-      desc: "Discover the best products with amazing prices",
-    },
-    {
-      image: "https://dlcdnwebimgs.asus.com/gain/6F97E38F-79AE-4638-9E82-003B40BE7185/fwebp",
-      title: "Big Sale Today",
-      desc: "Get the best deals on your favorite products",
-    },
-    {
-      image: "https://www.apple.com/v/iphone-17-pro/e/images/overview/welcome/hero_endframe__gb7f6nb06rau_xlarge.jpg",
-      title: "Shop Smart",
-      desc: "Quality products at affordable prices",
-    },
-  ];
+  const { banner, loading } = useBannerFrontend();
 
   const [current, setCurrent] = useState(0);
 
+  // Auto slide
   useEffect(() => {
+    if (!banner || banner.length <= 1) return;
+
     const interval = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % slides.length);
+      setCurrent((prev) => (prev + 1) % banner.length);
     }, 4000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [banner]);
+
+  const nextSlide = () =>
+    setCurrent((prev) => (prev + 1) % banner.length);
+
+  const prevSlide = () =>
+    setCurrent((prev) =>
+      prev === 0 ? banner.length - 1 : prev - 1
+    );
+
+  // Loading
+  if (loading) {
+    return (
+      <div className="h-[500px] flex items-center justify-center">
+        <p className="text-lg font-semibold">Loading banner...</p>
+      </div>
+    );
+  }
+
+  // Safety check
+  if (!banner || banner.length === 0) return null;
 
   return (
-    <div className="relative h-[450px] w-full overflow-hidden">
+    <div className="relative h-[500px] w-full overflow-hidden group">
 
       {/* Image */}
       <img
-        src={slides[current].image}
+        src={banner[current]?.image}
         alt="slider"
-        className="w-full h-full object-cover"
+        className="w-full h-full object-cover transition-all duration-700"
       />
 
-      {/* Overlay */}
-      <div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center text-center text-white px-4">
+      {/* Arrows */}
+      {banner.length > 1 && (
+        <>
+          <button
+            onClick={prevSlide}
+            className="absolute left-5 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white p-3 rounded-full transition"
+          >
+            <FaChevronLeft />
+          </button>
 
-        <h1 className="text-5xl font-bold mb-4">
-          {slides[current].title}
-        </h1>
-
-        <p className="text-lg mb-6">
-          {slides[current].desc}
-        </p>
-
-        <button
-          onClick={() =>
-            window.scrollTo({ top: 600, behavior: "smooth" })
-          }
-          className="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-200 transition"
-        >
-          Shop Now
-        </button>
-
-      </div>
+          <button
+            onClick={nextSlide}
+            className="absolute right-5 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white p-3 rounded-full transition"
+          >
+            <FaChevronRight />
+          </button>
+        </>
+      )}
 
       {/* Indicators */}
-      <div className="absolute bottom-5 left-0 right-0 flex justify-center gap-2">
-        {slides.map((_, index) => (
-          <div
-            key={index}
-            onClick={() => setCurrent(index)}
-            className={`h-3 w-3 rounded-full cursor-pointer ${
-              current === index ? "bg-white" : "bg-gray-400"
-            }`}
-          ></div>
-        ))}
-      </div>
-
+      {banner.length > 1 && (
+        <div className="absolute bottom-5 left-0 right-0 flex justify-center gap-2">
+          {banner.map((_, index) => (
+            <div
+              key={index}
+              onClick={() => setCurrent(index)}
+              className={`h-3 w-3 rounded-full cursor-pointer ${
+                current === index ? "bg-white" : "bg-gray-400"
+              }`}
+            ></div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

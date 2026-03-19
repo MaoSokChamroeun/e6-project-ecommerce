@@ -95,6 +95,9 @@ import Payment from "./payemnt/Payment";
 import ShowAllOrders from "./AdminDashboard/Order/ShowAllOrder";
 import PaymentSuccess from "./payemnt/PaymentSuccess";
 import FavoriteDetail from "./FrontendFetching/Product/FavoriteDetail";
+import ShowBanner from "./AdminDashboard/Banner/ShowBanner";
+import CreateBanner from "./AdminDashboard/Banner/CreateBanner";
+import UpdateBanner from "./AdminDashboard/Banner/UpdateBanner";
 
 function App() {
   return (
@@ -127,6 +130,10 @@ function App() {
 
         {/* CATEGORY */}
         <Route path="/admin/dashboard/category" element={<ShowCategory />} />
+        <Route path="/admin/dashboard/banner" element={<ShowBanner />} />
+        <Route path="/admin/dashboard/banner/create" element={<CreateBanner />} />
+        <Route path="/admin/dashboard/banner/update/:id" element={<UpdateBanner />} />
+
         <Route
           path="/admin/dashboard/category/create"
           element={<CreateCategory />}
@@ -135,6 +142,7 @@ function App() {
 
         {/* PRODUCT */}
         <Route path="/admin/dashboard/product" element={<ShowProduct />} />
+
         <Route
           path="/admin/dashboard/product/create"
           element={<CreateProduct />}
